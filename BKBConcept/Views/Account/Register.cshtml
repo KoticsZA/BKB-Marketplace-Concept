@@ -1,0 +1,78 @@
+﻿@model BKBConcept.ViewModels.Authentication.RegisterViewModel;
+@{
+    ViewData["Title"] = "Create your account";
+}
+<div>
+    <form asp-action="Register" asp-controller="Account" class="m-5" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Personal Details</legend>
+            <div>
+                <label asp-for="Firstname">Firstname: </label>
+                <input asp-for="Firstname" placeholder="Thabo" />
+            </div>
+            <div>
+                <label asp-for="Lastname">Lastname: </label>
+                <input asp-for="Lastname" placeholder="Bester"/>
+            </div>
+            <div>
+                <label asp-for="Email">Email: </label>
+                <input asp-for="Email" placeholder="bestert@example.com"/>
+            </div>
+            <div>
+                <label asp-for="ProfileImage">Profile Image: </label>
+                <input asp-for="ProfileImage" type="file" />
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Role Details</legend>
+            <div>
+                <label asp-for="Role">Role: </label>
+                <select asp-for="Role" id="selectRole">
+                    <option value="">Select Role</option>
+                    <option value="Client">Buyer</option>
+                    <option value="Seller" id="selectedSeller">Seller</option>
+                </select>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Security Details</legend>
+            <div>
+                <label asp-for="Password">Password: </label>
+                <input asp-for="Password" type="password" placeholder="********"/>
+            </div>
+            <div>
+                <label asp-for="ConfirmPassword">Confirm Password: </label>
+                <input asp-for="ConfirmPassword" type="password" placeholder="*******"/>
+            </div>
+        </fieldset>
+        <fieldset class="sellerDetails" style="display:none;">
+            <legend>Seller Details</legend>
+            <div>
+                <label asp-for="Bio">Short description of your farm: </label>
+                <textarea asp-for="Bio" placeholder="Describe your farm here...."></textarea>
+            </div>
+            <div>
+                <label asp-for="NationalId">National ID Copy: </label>
+                <input type="file" asp-for="NationalId" />
+            </div>
+        </fieldset>
+        <div asp-validation-summary="All" class="text-red-500"></div>
+        <button type="submit">Create Account</button>
+    </form>
+</div>
+<script>
+    const accType = document.getElementById("selectRole");
+    const sellerDetails = document.querySelector(".sellerDetails");
+
+accType.addEventListener("change", function () {
+
+    const selectedValue = accType.value;
+
+    if (selectedValue === "Seller") {
+        sellerDetails.style.display = "block";
+    } 
+    else {
+        sellerDetails.style.display = "none";
+    }
+});
+</script>

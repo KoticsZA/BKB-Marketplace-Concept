@@ -1,0 +1,26 @@
+﻿@model BKBConcept.ViewModels.Authentication.LoginViewModel;
+@{
+    ViewData["Title"] = "Create your account";
+}
+<div class="">
+    <form asp-action="Login" asp-controller="Account" method="post">
+        <div>
+                <div>
+                    <label asp-for="Email">Email: </label>
+                    <input asp-for="Email" placeholder="John" />
+                </div>
+                
+                <div>
+                    <label asp-for="Password">Password: </label>
+                    <input asp-for="Password" type="password" placeholder="********" />
+                </div>
+                <div>
+                    <label asp-for="RememberMe">Remember me on this device?: </label>
+                    <input asp-for="RememberMe" type="checkbox" />
+                </div>
+                <div asp-validation-summary="All"></div>
+                <button type="submit">Sign-In</button>
+        </div>
+    </form>
+</div>
+
