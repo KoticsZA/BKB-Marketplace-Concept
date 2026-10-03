@@ -43,9 +43,20 @@ namespace BKBConcept.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+            {
+                foreach(var error in ModelState.Values)
+                {
+                    ModelState.AddModelError("", $"There is an error of the type: {error}");
+                    return View(model);
+                }
+            }
 
             var result = await _authService.LoginAsync(model);
+
+            Console.WriteLine($"Succeeded: {result.Succeeded}");
+            Console.WriteLine($"IsNotAllowed: {result.IsNotAllowed}");
+            Console.WriteLine($"IsLockedOut: {result.IsLockedOut}");
+            Console.WriteLine($"RequiresTwoFactor: {result.RequiresTwoFactor}");
 
             if (result.Succeeded)
             {

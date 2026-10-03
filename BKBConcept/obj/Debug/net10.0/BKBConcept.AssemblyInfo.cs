@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BKBConcept")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3fec67bde5749efd55683b8da205bd6814f92e6")]
 [assembly: System.Reflection.AssemblyProductAttribute("BKBConcept")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BKBConcept")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

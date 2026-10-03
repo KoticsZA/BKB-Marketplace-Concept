@@ -1,26 +1,114 @@
-﻿@model BKBConcept.ViewModels.Authentication.LoginViewModel;
+﻿@model BKBConcept.ViewModels.Authentication.LoginViewModel
 @{
-    ViewData["Title"] = "Create your account";
+    ViewData["Title"] = "Sign In";
 }
-<div class="">
-    <form asp-action="Login" asp-controller="Account" method="post">
-        <div>
-                <div>
-                    <label asp-for="Email">Email: </label>
-                    <input asp-for="Email" placeholder="John" />
-                </div>
-                
-                <div>
-                    <label asp-for="Password">Password: </label>
-                    <input asp-for="Password" type="password" placeholder="********" />
-                </div>
-                <div>
-                    <label asp-for="RememberMe">Remember me on this device?: </label>
-                    <input asp-for="RememberMe" type="checkbox" />
-                </div>
-                <div asp-validation-summary="All"></div>
-                <button type="submit">Sign-In</button>
-        </div>
-    </form>
-</div>
 
+<main class="md:min-h-screen flex items-center justify-center py-6 px-4 md:px-8 bg-gray-100">
+  <div class="w-full max-w-5xl bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-xl">
+    <div class="grid items-center w-full gap-0 md:grid-cols-2">
+      
+      <!-- Image Sidebar -->
+      <div class="md:aspect-[8/10] bg-slate-900 relative overflow-hidden w-full h-full min-h-[350px]">
+        <img src="https://readymadeui.com/team-image.webp" class="w-full h-full object-cover opacity-75" alt="Login Banner" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex items-end p-8">
+          <div>
+            <h2 class="text-white text-3xl font-bold">Welcome Back</h2>
+            <p class="text-gray-200 text-sm mt-2 leading-relaxed">
+              Join our platform to start buying fresh produce straight from the farmer.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Section -->
+      <div class="py-8 px-6 lg:px-10">
+        <div class="max-w-md mx-auto w-full">
+          <h1 class="text-gray-900 text-3xl font-extrabold mb-6">
+            Sign in
+          </h1>
+
+          <form asp-controller="Account" asp-action="Login" method="post" class="space-y-5">
+            
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm font-semibold p-3 bg-red-50 border border-red-200 rounded-md"></div>
+            }
+
+            <!-- Email Field -->
+            <div>
+              <label asp-for="Email" class="block mb-2 text-sm font-bold text-gray-900">
+                Email Address
+              </label>
+              <input asp-for="Email" 
+                     placeholder="john@example.com" 
+                     class="px-3.5 py-2.5 text-sm text-gray-900 bg-white placeholder-gray-400 rounded-lg w-full border border-gray-300 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none" />
+              <span asp-validation-for="Email" class="text-red-600 text-xs font-medium mt-1 block"></span>
+            </div>
+
+            <!-- Password Field -->
+            <div>
+              <label asp-for="Password" class="block mb-2 text-sm font-bold text-gray-900">
+                Password
+              </label>
+              <div class="relative">
+                <input asp-for="Password" 
+                       placeholder="••••••••" 
+                       class="px-3.5 py-2.5 text-sm text-gray-900 bg-white placeholder-gray-400 rounded-lg w-full border border-gray-300 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none" />
+                
+                <button type="button" aria-label="Toggle password visibility"
+                        class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="size-5 fill-current" viewBox="0 0 128 128">
+                    <path d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z"></path>
+                  </svg>
+                </button>
+              </div>
+              <span asp-validation-for="Password" class="text-red-600 text-xs font-medium mt-1 block"></span>
+            </div>
+
+            <!-- Remember Me & Forgot Password -->
+            <div class="flex items-center justify-between gap-2">
+              <label class="flex items-center cursor-pointer">
+                <input asp-for="RememberMe" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                <span class="ml-2 text-sm font-semibold text-gray-800">
+                  Remember me
+                </span>
+              </label>
+
+              <a asp-controller="Account" asp-action="ForgotPassword"
+                 class="text-sm font-bold text-blue-600 hover:text-blue-800 hover:underline">
+                 Forgot password?
+              </a>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                    class="w-full py-2.5 px-4 text-sm rounded-lg font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow">
+              Sign in
+            </button>
+          </form>
+
+          <!-- Divider -->
+          <div class="my-6 flex items-center gap-4">
+            <hr class="w-full border-gray-200" />
+            <span class="text-xs font-bold text-gray-400 uppercase">or</span>
+            <hr class="w-full border-gray-200" />
+          </div>
+
+          <!-- Register Link -->
+          <div class="text-sm text-center font-medium text-gray-800">
+            Don't have an account? 
+            <a asp-controller="Account" asp-action="Register" class="text-blue-600 hover:text-blue-800 font-bold hover:underline ml-1">
+              Sign up
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

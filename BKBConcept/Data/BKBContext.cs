@@ -15,6 +15,11 @@ namespace BKBConcept.Data
         public DbSet<SellerProfile> SellerProfiles { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet <WalletTransaction> WalletTransactions { get; set; }
+        public DbSet <Group> Groups { get; set; }
+        public DbSet <UserGroup> UserGroups { get; set; }
+        public DbSet <Delivery> Deliveries { get; set; }
+        public DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -38,6 +43,18 @@ namespace BKBConcept.Data
                 .HasForeignKey(o => o.ClientId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Entity<MyUser>()
+                .HasMany(u => u.Groups)
+                .WithOne(g => g.User)
+                .HasForeignKey(g => g.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<MyUser>()
+                .HasOne(u => u.Address)
+                .WithOne(a => a.User)
+                .HasForeignKey<Address>(a => a.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<Order>()
                 .HasOne(o => o.Seller)
                 .WithMany(s => s.Orders)
@@ -48,6 +65,24 @@ namespace BKBConcept.Data
                 .HasMany(o => o.Products)
                 .WithOne(p => p.Order)
                 .HasForeignKey(p => p.OrderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Order>()
+                .HasOne(o => o.Group)
+                .WithMany(g => g.Orders)
+                .HasForeignKey(o => o.GroupId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Order>()
+                .HasOne(o => o.Delivery)
+                .WithMany(d => d.Orders)
+                .HasForeignKey(o => o.DeliveryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Delivery>()
+                .HasOne(d => d.Address)
+                .WithOne(a => a.Delivery)
+                .HasForeignKey<Delivery>(d => d.DeliveryAddressId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Product>()

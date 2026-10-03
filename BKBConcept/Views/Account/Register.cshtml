@@ -24,6 +24,29 @@
             </div>
         </fieldset>
         <fieldset>
+            <legend>Address Details</legend>
+            <div>
+                <label asp-for="Street">Street: </label>
+                <input asp-for="Street" />
+            </div>
+            <div>
+                <label asp-for="Suburb">Suburb: </label>
+                <input asp-for="Suburb" />
+            </div>
+            <div>
+                <label asp-for="City">City/Town: </label>
+                <input asp-for="City" />
+            </div>
+            <div>
+                <label asp-for="Province">Province: </label>
+                <input asp-for="Province" />
+            </div>
+            <div>
+                <label asp-for="ZipCode">Postal Code: </label>
+                <input asp-for="ZipCode" />
+            </div>
+        </fieldset>
+        <fieldset>
             <legend>Role Details</legend>
             <div>
                 <label asp-for="Role">Role: </label>
@@ -32,6 +55,21 @@
                     <option value="Client">Buyer</option>
                     <option value="Seller" id="selectedSeller">Seller</option>
                 </select>
+            </div>
+        </fieldset>
+        <fieldset class="sellerDetails" style="display:none;">
+            <legend>Seller Details</legend>
+            <div>
+                <label asp-for="BusinessName">Business Name: </label>
+                <input asp-for="BusinessName" />
+            </div>
+            <div>
+                <label asp-for="Bio">Short description of your farm: </label>
+                <textarea asp-for="Bio" placeholder="Describe your farm here...."></textarea>
+            </div>
+            <div>
+                <label asp-for="NationalId">National ID Copy: </label>
+                <input type="file" asp-for="NationalId" />
             </div>
         </fieldset>
         <fieldset>
@@ -43,17 +81,6 @@
             <div>
                 <label asp-for="ConfirmPassword">Confirm Password: </label>
                 <input asp-for="ConfirmPassword" type="password" placeholder="*******"/>
-            </div>
-        </fieldset>
-        <fieldset class="sellerDetails" style="display:none;">
-            <legend>Seller Details</legend>
-            <div>
-                <label asp-for="Bio">Short description of your farm: </label>
-                <textarea asp-for="Bio" placeholder="Describe your farm here...."></textarea>
-            </div>
-            <div>
-                <label asp-for="NationalId">National ID Copy: </label>
-                <input type="file" asp-for="NationalId" />
             </div>
         </fieldset>
         <div asp-validation-summary="All" class="text-red-500"></div>

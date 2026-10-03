@@ -15,5 +15,6 @@ namespace BKBConcept.Models
         public SellerProfile Seller { get; set; }
         public decimal Price { get; set; }
         public string? ProductImgURL {get;set;}  
+        public DateOnly HarvestDate { get; set; }
     }
 }

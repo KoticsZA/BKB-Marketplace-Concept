@@ -149,6 +149,7 @@ C:\Users\Unakho\source\repos\BKBConcept\BKBConcept\obj\Debug\net10.0\BKBConcept.
 C:\Users\Unakho\source\repos\BKBConcept\BKBConcept\obj\Debug\net10.0\BKBConcept.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Unakho\source\repos\BKBConcept\BKBConcept\obj\Debug\net10.0\BKBConcept.RazorAssemblyInfo.cache
 C:\Users\Unakho\source\repos\BKBConcept\BKBConcept\obj\Debug\net10.0\BKBConcept.RazorAssemblyInfo.cs
+C:\Users\Unakho\source\repos\BKBConcept\BKBConcept\obj\Debug\net10.0\BKBConcept.sourcelink.json
 C:\Users\Unakho\source\repos\BKBConcept\BKBConcept\obj\Debug\net10.0\rjimswa.dswa.cache.json
 C:\Users\Unakho\source\repos\BKBConcept\BKBConcept\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 C:\Users\Unakho\source\repos\BKBConcept\BKBConcept\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json

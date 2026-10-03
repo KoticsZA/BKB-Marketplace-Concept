@@ -23,10 +23,21 @@ namespace BKBConcept.Services
         public async Task<IdentityResult> RegisterAsync(RegisterViewModel model)
         {
             var nationalIDURL = await UploadAsync(model.NationalId, "Documents");
+
             var seller = new SellerProfile
             {
                 Bio = model.Bio,
-                NationalIdURL = nationalIDURL
+                NationalIdURL = nationalIDURL,
+                BusinessName = model.BusinessName
+            };
+
+            var address = new Address
+            {
+                Street = model.Street,
+                Suburb = model.Suburb,
+                City = model.City,
+                Province = model.Province,
+                ZipCode = model.ZipCode
             };
 
             var profileImgURL = await UploadAsync(model.ProfileImage, "Images");
@@ -38,10 +49,11 @@ namespace BKBConcept.Services
                 NormalizedUserName = model.Email,
                 Email = model.Email,
                 Role = model.Role,
-                SellerProfile = seller
+                SellerProfile = seller,
+                Address = address
             };
 
-            var result = await _userManager.CreateAsync(user);
+            var result = await _userManager.CreateAsync(user, model.Password);
             return result;
         }
 
@@ -71,8 +83,18 @@ namespace BKBConcept.Services
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                Console.WriteLine("USER NOT FOUND");
+                return SignInResult.Failed;
+            }
+
+            Console.WriteLine($"USER HAS BEEN FOUND user ID: {user.Id}");
+
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
 
+            Console.WriteLine($"LOGIN SUCCESSFULL: {result.Succeeded}");
             return result;
         }
     }

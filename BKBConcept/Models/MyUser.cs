@@ -13,5 +13,8 @@ namespace BKBConcept.Models
         public List<Order> Orders { get; set; } = new List<Order>();
         public int? SellerProfileId { get; set; }
         public SellerProfile? SellerProfile { get; set; }
+        public List<UserGroup> Groups { get; set; } = new List<UserGroup>();
+        public int AddressId { get; set; }
+        public Address Address { get; set; }
     }
 }

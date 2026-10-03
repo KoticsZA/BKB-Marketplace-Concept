@@ -22,6 +22,46 @@ namespace BKBConcept.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BKBConcept.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Province")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Suburb")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("BKBConcept.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -39,12 +79,86 @@ namespace BKBConcept.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("BKBConcept.Models.Delivery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DeliveryAddressId")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly?>("DeliveryDate")
+                        .HasColumnType("date");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeliveryAddressId")
+                        .IsUnique();
+
+                    b.ToTable("Deliveries");
+                });
+
+            modelBuilder.Entity("BKBConcept.Models.DeliveryAddress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DeliveryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.ToTable("DeliveryAddresses");
+                });
+
+            modelBuilder.Entity("BKBConcept.Models.Group", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WalletId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WalletId1")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WalletId1");
+
+                    b.ToTable("Groups");
+                });
+
             modelBuilder.Entity("BKBConcept.Models.MyUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -137,8 +251,16 @@ namespace BKBConcept.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClientId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DeliveryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("OrderCost")
                         .HasColumnType("decimal(18,2)");
@@ -152,6 +274,10 @@ namespace BKBConcept.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("DeliveryId");
+
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("SellerId");
 
@@ -199,6 +325,9 @@ namespace BKBConcept.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateOnly>("HarvestDate")
+                        .HasColumnType("date");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -236,6 +365,10 @@ namespace BKBConcept.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("BusinessName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
 
@@ -257,6 +390,34 @@ namespace BKBConcept.Data.Migrations
                     b.ToTable("SellerProfiles");
                 });
 
+            modelBuilder.Entity("BKBConcept.Models.UserGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("GroupId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GroupId1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId1");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserGroups");
+                });
+
             modelBuilder.Entity("BKBConcept.Models.Wallet", b =>
                 {
                     b.Property<int>("Id")
@@ -268,6 +429,9 @@ namespace BKBConcept.Data.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("SellerId")
                         .HasColumnType("int");
 
@@ -275,6 +439,8 @@ namespace BKBConcept.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("SellerId")
                         .IsUnique()
@@ -291,6 +457,13 @@ namespace BKBConcept.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -302,6 +475,8 @@ namespace BKBConcept.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("WalletId");
 
@@ -441,6 +616,50 @@ namespace BKBConcept.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BKBConcept.Models.Address", b =>
+                {
+                    b.HasOne("BKBConcept.Models.MyUser", "User")
+                        .WithOne("Address")
+                        .HasForeignKey("BKBConcept.Models.Address", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BKBConcept.Models.Delivery", b =>
+                {
+                    b.HasOne("BKBConcept.Models.DeliveryAddress", "Address")
+                        .WithOne("Delivery")
+                        .HasForeignKey("BKBConcept.Models.Delivery", "DeliveryAddressId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("BKBConcept.Models.DeliveryAddress", b =>
+                {
+                    b.HasOne("BKBConcept.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("BKBConcept.Models.Group", b =>
+                {
+                    b.HasOne("BKBConcept.Models.Wallet", "Wallet")
+                        .WithMany()
+                        .HasForeignKey("WalletId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Wallet");
+                });
+
             modelBuilder.Entity("BKBConcept.Models.MyUser", b =>
                 {
                     b.HasOne("BKBConcept.Models.Wallet", "Wallet")
@@ -457,8 +676,18 @@ namespace BKBConcept.Data.Migrations
                     b.HasOne("BKBConcept.Models.MyUser", "Client")
                         .WithMany("Orders")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("BKBConcept.Models.Delivery", "Delivery")
+                        .WithMany("Orders")
+                        .HasForeignKey("DeliveryId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("BKBConcept.Models.Group", "Group")
+                        .WithMany("Orders")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BKBConcept.Models.SellerProfile", "Seller")
                         .WithMany("Orders")
@@ -467,6 +696,10 @@ namespace BKBConcept.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Client");
+
+                    b.Navigation("Delivery");
+
+                    b.Navigation("Group");
 
                     b.Navigation("Seller");
                 });
@@ -520,23 +753,56 @@ namespace BKBConcept.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BKBConcept.Models.UserGroup", b =>
+                {
+                    b.HasOne("BKBConcept.Models.Group", "Group")
+                        .WithMany("Members")
+                        .HasForeignKey("GroupId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BKBConcept.Models.MyUser", "User")
+                        .WithMany("Groups")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("BKBConcept.Models.Wallet", b =>
                 {
+                    b.HasOne("BKBConcept.Models.UserGroup", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId");
+
                     b.HasOne("BKBConcept.Models.SellerProfile", "Seller")
                         .WithOne("Wallet")
                         .HasForeignKey("BKBConcept.Models.Wallet", "SellerId")
                         .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Group");
 
                     b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("BKBConcept.Models.WalletTransaction", b =>
                 {
+                    b.HasOne("BKBConcept.Models.MyUser", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BKBConcept.Models.Wallet", "Wallet")
                         .WithMany("Transactions")
                         .HasForeignKey("WalletId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Client");
 
                     b.Navigation("Wallet");
                 });
@@ -597,8 +863,31 @@ namespace BKBConcept.Data.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("BKBConcept.Models.Delivery", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("BKBConcept.Models.DeliveryAddress", b =>
+                {
+                    b.Navigation("Delivery")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BKBConcept.Models.Group", b =>
+                {
+                    b.Navigation("Members");
+
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("BKBConcept.Models.MyUser", b =>
                 {
+                    b.Navigation("Address")
+                        .IsRequired();
+
+                    b.Navigation("Groups");
+
                     b.Navigation("Orders");
 
                     b.Navigation("SellerProfile");

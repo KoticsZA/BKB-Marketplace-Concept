@@ -9,5 +9,7 @@
         public SellerProfile? Seller { get; set; }
         public decimal Balance { get; set; }
         public List<WalletTransaction> Transactions { get; set; } = new List<WalletTransaction>();
+        public int? GroupId { get; set; }
+        public UserGroup? Group { get; set; }
     }
 }

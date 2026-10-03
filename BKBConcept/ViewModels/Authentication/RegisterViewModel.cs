@@ -25,5 +25,11 @@ namespace BKBConcept.ViewModels.Authentication
         public string Role { get; set; }
         public string? Bio { get; set; }
         public IFormFile? NationalId { get; set; }
+        public string? BusinessName { get; set; }
+        public string Street { get; set; }
+        public string Suburb { get; set; }
+        public string City { get; set; }
+        public string Province { get; set; }
+        public string ZipCode { get; set; }
     }
 }

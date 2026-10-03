@@ -1,0 +1,201 @@
+﻿@model BKBConcept.ViewModels.Seller.SellerIndexViewModel
+
+@{
+    ViewData["Title"] = $"Welcome Back {Model.Lastname}";
+}
+
+<div class="space-y-8 p-6 bg-white text-black min-h-screen">
+
+  <!-- Header / Seller Info Section -->
+  <div class="bg-white border-2 border-gray-300 rounded-2xl p-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div class="flex items-center gap-4">
+      <!-- User Avatar Status Badge -->
+      <div class="relative inline-block size-16 shrink-0">
+        <img src="@(string.IsNullOrEmpty(Model.UserImgURL) ? "~/images/default-avatar.png" : Model.UserImgURL)" 
+             asp-append-version="true"
+             class="size-16 rounded-full object-cover border-2 border-gray-300" 
+             alt="User Profile Image" />
+        <span class="absolute bottom-0 right-0 size-4 rounded-full bg-green-600 ring-2 ring-white"></span>
+      </div>
+
+      <div>
+        <h1 class="text-2xl font-black text-black tracking-tight">Welcome Back, @Model.Firstname @Model.Lastname</h1>
+        <p class="text-base font-bold text-gray-700">@Model.BusinessName</p>
+      </div>
+    </div>
+
+    <!-- Balance Badge -->
+    <div class="flex items-center gap-4 bg-green-100 border-2 border-green-800 p-4 rounded-xl">
+      <div>
+        <span class="text-xs uppercase font-black text-green-950 tracking-wider">Wallet Balance</span>
+        <p class="text-2xl font-black text-green-900">R @Model.Wallet?.Balance.ToString("N2")</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Nav Buttons -->
+  <div class="flex flex-wrap gap-3">
+    <a asp-controller="Seller" asp-action="AddProduct" 
+       class="inline-flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white font-bold text-sm px-5 py-3 rounded-xl transition-all shadow">
+       + Add Product
+    </a>
+    <a asp-controller="Seller" asp-action="Orders" 
+       class="inline-flex items-center gap-2 bg-gray-100 border-2 border-gray-400 hover:bg-gray-200 text-black font-bold text-sm px-5 py-3 rounded-xl transition-all">
+       View Orders
+    </a>
+    <a asp-controller="Seller" asp-action="Wallet" 
+       class="inline-flex items-center gap-2 bg-gray-100 border-2 border-gray-400 hover:bg-gray-200 text-black font-bold text-sm px-5 py-3 rounded-xl transition-all">
+       View Wallet
+    </a>
+  </div>
+
+  <!-- 3-Column Dashboard Cards -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Card 1: Inventory -->
+    <div class="bg-white border-2 border-gray-300 rounded-2xl p-6 shadow-md flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-4 mb-4 border-b-2 border-gray-200">
+          <h2 class="font-black text-xl text-black">Inventory</h2>
+          <span class="text-xs font-bold px-3 py-1 bg-gray-200 text-black border border-gray-400 rounded-full">
+            @(Model.Products?.Count ?? 0) Items
+          </span>
+        </div>
+
+        @if (Model.Products != null && Model.Products.Count > 0)
+        {
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-black">
+              <thead class="text-gray-900 font-black uppercase border-b-2 border-gray-200">
+                <tr>
+                  <th class="py-2">Name</th>
+                  <th class="py-2">Stock</th>
+                  <th class="py-2 text-right">Price</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                @foreach (var product in Model.Products.Take(5))
+                {
+                  <tr>
+                    <td class="py-2.5 font-bold text-black">@product.Name</td>
+                    <td class="py-2.5 text-gray-800 font-semibold">@product.QuantityAvailable</td>
+                    <td class="py-2.5 text-right font-black text-black">R @product.Price</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+        else
+        {
+          <p class="text-gray-800 font-semibold text-sm py-8 text-center">No products added yet</p>
+        }
+      </div>
+
+      <div class="mt-6 pt-4 border-t-2 border-gray-200">
+        <a asp-controller="Seller" asp-action="Products" 
+           class="block w-full text-center text-sm font-black text-green-800 hover:text-green-950 underline">
+           View All Products &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 2: Recent Orders -->
+    <div class="bg-white border-2 border-gray-300 rounded-2xl p-6 shadow-md flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-4 mb-4 border-b-2 border-gray-200">
+          <h2 class="font-black text-xl text-black">Recent Orders</h2>
+        </div>
+
+        @if (Model.RecentOrders != null && Model.RecentOrders.Any())
+        {
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-black">
+              <thead class="text-gray-900 font-black uppercase border-b-2 border-gray-200">
+                <tr>
+                  <th class="py-2">Buyer</th>
+                  <th class="py-2">Products</th>
+                  <th class="py-2 text-right">Price</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                @foreach(var order in Model.RecentOrders.Take(5))
+                {
+                  <tr>
+                    <td class="py-2.5 font-bold text-black">
+                      @(order.Client != null ? $"{order.Client.Firstname} {order.Client.Lastname}" : order.Group?.Name ?? "Guest")
+                    </td>
+                    <td class="py-2.5">
+                      @foreach (var p in order.Products)
+                      {
+                        <span class="block text-gray-800 font-medium">@p.Product.Name</span>
+                      }
+                    </td>
+                    <td class="py-2.5 text-right font-black text-black">R @order.OrderCost</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+        else
+        {
+          <p class="text-gray-800 font-semibold text-sm py-8 text-center">No new orders recorded yet</p>
+        }
+      </div>
+
+      <div class="mt-6 pt-4 border-t-2 border-gray-200">
+        <a asp-controller="Seller" asp-action="Orders" 
+           class="block w-full text-center text-sm font-black text-green-800 hover:text-green-950 underline">
+           View All Orders &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 3: Recent Transactions -->
+    <div class="bg-white border-2 border-gray-300 rounded-2xl p-6 shadow-md flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-4 mb-4 border-b-2 border-gray-200">
+          <h2 class="font-black text-xl text-black">Transactions</h2>
+        </div>
+
+        @if (Model.Wallet?.Transactions != null && Model.Wallet.Transactions.Any())
+        {
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-black">
+              <thead class="text-gray-900 font-black uppercase border-b-2 border-gray-200">
+                <tr>
+                  <th class="py-2">Client</th>
+                  <th class="py-2">Date</th>
+                  <th class="py-2 text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                @foreach(var tx in Model.Wallet.Transactions.Take(5))
+                {
+                  <tr>
+                    <td class="py-2.5 font-bold text-black">@tx.Client?.Firstname @tx.Client?.Lastname</td>
+                    <td class="py-2.5 text-gray-700 font-medium">@tx.CreatedAt.ToShortDateString()</td>
+                    <td class="py-2.5 text-right font-black text-green-900">+R @tx.Amount</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+        else
+        {
+          <p class="text-gray-800 font-semibold text-sm py-8 text-center">No transactions recorded yet</p>
+        }
+      </div>
+
+      <div class="mt-6 pt-4 border-t-2 border-gray-200">
+        <a asp-controller="Seller" asp-action="Wallet" 
+           class="block w-full text-center text-sm font-black text-green-800 hover:text-green-950 underline">
+           View Wallet Details &rarr;
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
